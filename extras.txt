@@ -1,0 +1,1405 @@
+renderItem = ({ i, item }) => {
+    return (
+        <ListItem
+          key={i} 
+          title={item.item}
+          subtitle ={item.note}
+          bottomDivider
+          rightElement = {
+          <TouchableOpacity>
+          <Text>Hellooo</Text>
+          </TouchableOpacity>
+          } 
+        />
+    )
+} 
+
+ 
+    renderPost = item => {
+        return (
+           <View style={{flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+           <Text style={styles.name}>{item.item}</Text>
+           <Text style={styles.post}>{item.date}</Text>
+           </View>
+         );
+     };
+
+
+    <View>
+        <Text style={{color: 'black', fontWeight: 'bold'}}>{item.item}</Text>
+        <TouchableOpacity style={styles.button}>
+        <Text style={{color:'#ffff'}}> See</Text>
+        </TouchableOpacity> 
+    </View>
+
+
+     rightElememt = {
+                  <Avatar
+                  rounded
+                  source={{ uri: item.image}}
+                  size={"xlarge"}
+                />
+
+                 <View>
+
+               <List.Item 
+                title= {item.item}
+                titleStyle = {styles.item}
+                left= {
+                  <Avatar
+                  rounded
+                  source={{ uri: item.image}}
+                  size={"xlarge"}
+
+               />
+                }
+              </View>
+
+
+
+
+
+               <List.Item 
+            title= {item.item}
+            titleStyle = {styles.item}
+            left = { item =>
+              <Avatar
+              rounded
+              source={{ uri: item.image}}
+              size={"xlarge"}
+              />
+
+
+
+
+
+
+
+
+import React, { Component } from "react";
+import { View, StyleSheet, Text, FlatList,  TouchableOpacity} from "react-native";
+import db from "../config";
+import MyHeader from "../components/MyHeader";
+import { List } from 'react-native-paper';
+import { Avatar } from "react-native-elements";
+
+export default class AllProducts extends Component {
+  constructor() {
+    super();
+    this.state = {
+      allItems: [],
+    }
+    this.requestRef = null;
+  }
+
+  getAllItems =()=>{
+    this.requestRef = db.collection("item_details")
+    .onSnapshot((snapshot)=>{
+      var allItems = snapshot.docs.map(doc => doc.data());
+        this.setState({
+          allItems: allItems,
+        });
+      })
+  }
+
+    componentDidMount(){
+      this.getAllItems()
+    }
+  
+    componentWillUnmount(){
+      this.requestRef();
+    } 
+     
+  render(){
+    return(
+    
+      <View style={styles.container}>
+           <MyHeader navigation = {this.props.navigation} title="All Products"/>       
+         <FlatList
+           data={this.state.allItems}
+           keyExtractor = {(index) => index.toString()}
+           showsVerticalScrollIndicator={false}
+           renderItem = { ({ item }) => {
+             <List.Item 
+             title= {item.item}
+             titleStyle = {styles.item}
+             left = {
+               <Avatar 
+               rounded
+              source={{ uri: item.image}}
+              size={"xlarge"}
+               />
+             }
+             />
+           }}
+         />
+      </View>
+      
+    )
+  }
+}
+const styles = StyleSheet.create({
+  container:{
+     flex:1,
+     backgroundColor: "#fff",
+     paddingTop: 0,
+     paddingHorizontal: 0
+   },
+
+   button:{
+     width:100,
+     height:30,
+     justifyContent:'center',
+     alignItems:'center',
+     backgroundColor:"#ff5722",
+     shadowColor: "#000",
+     shadowOffset: {
+        width: 0,
+        height: 8
+      }
+   },
+   item:{
+     marginTop: 12,
+     padding: 25,
+     marginLeft: -10 ,
+     backgroundColor: "#a2ded0",
+     fontSize: 21,
+   },
+})
+
+
+
+ return(
+      <View style={styles.container}>
+        <MyHeader navigation = {this.props.navigation} title="All Products"/>    
+        <FlatList       
+       data={this.state.allItems}
+       keyExtractor = {(index) => index.toString()}
+       showsVerticalScrollIndicator={false}
+       renderItem = { ({ item }) => {
+        <View style={{flex: 1, flexDirection: "row", backgroundColor: "#fff"}}>
+          <Avatar rounded style={{width: 100, height: 100, margin: 5}} source={{ uri: item.image}} size={"xlarge"}/>
+         <View style={{flex: 1, flexDirection: "column"}}>
+         <Text style={{color: "white", padding: 10, fontSize: 16}}>{item.item}</Text>
+          <Text style={{color: "white", padding: 10, fontSize: 16}}>{item.date}</Text>
+         </View>
+        </View>
+       }}
+       />
+      </View>
+    )
+
+      //  item:{
+  //    marginTop: 12,
+  //    padding: 25,
+  //    marginLeft: -10 ,
+  //    backgroundColor: "pink",
+  //    fontSize: 21,
+  //  },
+
+
+ button:{
+     width:100,
+     height:30,
+     justifyContent:'center',
+     alignItems:'center',
+     backgroundColor:"#ff5722",
+     shadowColor: "#000",
+     shadowOffset: {
+        width: 0,
+        height: 8
+      }
+   },
+
+    container:{
+     flex:1,
+     backgroundColor: "#fff",
+   },
+
+   viewContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent : "space-between",
+    marginBottom: 20 ,
+    borderRadius : 16,
+    backgroundColor : "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height : 10
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 20
+   },
+   
+   img:{
+    width: 100, 
+    height: 100, 
+    borderRadius: 100, 
+    //margin: 5, 
+    //marginLeft: 0 
+   },
+
+   textContainer: {
+    flex: 1, 
+    justifyContent : "center",
+    marginLeft : 5
+   },
+
+   text: {
+     fontSize: 20 ,
+    marginBottom: 15,
+    color: "green"
+   },
+
+
+   <Animated.FlatList       
+        style={styles.container}
+        keyExtractor={ (item) => item.id }
+       data={this.state.allItems}
+       scrollEventThrottle={ 1000 }
+       showsVerticalScrollIndicator={false}
+       onScroll={Animated.event(
+         [{nativeEvent: {contentOffset : {y}}}],
+         {useNativeDriver: true}
+       )}
+       contentContainerStyle = {{
+         padding: 20,
+         paddingTop: StatusBar.currentHeight || 20
+       }}
+       renderItem = { ({ item }) => {
+        return (
+          <TouchableOpacity style={styles.viewContainer}>
+                <Image source = {{uri : item.image}} style={styles.img}/>
+                  <View style={styles.textContainer}>
+                  <Text style={styles.text}>{item.item}</Text>
+                  </View>
+                  </TouchableOpacity>
+          )
+       }}
+       />
+
+           //  openImagePickerAsync = async () => {
+    //   let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+  
+    //   if (permissionResult.granted === false) {
+    //     alert("Permission to access camera roll is required!");
+    //     return;
+    //   }
+  
+    //   let pickerResult = await ImagePicker.launchCameraAsync({
+    //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+    //     allowsEditing: true,
+    //     aspect: [4, 3],
+    //     quality: 1,
+    //   });
+    //   if (!result.cancelled) {
+    //     this.setState({image: result.uri})
+    //   }
+    // }
+
+    import React ,{Component} from 'react';
+import {View,Text, Image} from 'react-native';
+import{Header,Icon} from 'react-native-elements';
+import { Avatar } from 'react-native-elements/dist/avatar/Avatar';
+import { Card } from 'react-native-elements/dist/card/Card';
+import db from '../config';
+import { styles } from '../styles/styles3';
+
+export default class MoreDetails extends Component {
+    constructor() {
+        super();
+        this.state = {
+          allItems: [],
+        }
+        this.requestRef = null;
+      }
+    
+      getAllItems =()=>{
+        this.requestRef = db.collection("item_details")
+        .onSnapshot((snapshot)=>{
+          var allItems = snapshot.docs.map(doc => doc.data());
+            this.setState({
+              allItems: allItems,
+            });
+          })
+      }
+        componentDidMount(){
+          this.getAllItems()
+        }
+        componentWillUnmount(){
+          this.requestRef();
+        } 
+    render() {
+        return (
+            <View>
+              <Header
+              leftComponent ={<Icon name='arrow-left' type='feather' color='#696969'  onPress={() => this.props.navigation.navigate('AllProducts')}/>}
+              centerComponent={{ text: "DETAILS", style: { color: '#90A5A9', fontSize:20,fontWeight:"bold", } }}
+                backgroundColor = "#eaf8fe"
+              />
+              { this.state.allItems.map((item) => {
+                      return(
+                          <View>
+                        <View style={styles.viewContainer}>
+                      <Avatar 
+                      rounded
+                     size={"xlarge"}
+                      source = {{uri : item.image}} 
+                      />
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                    <Text style={styles.input}>{item.item}</Text>
+                    </View>
+
+                    </View> 
+                      )
+                  })
+              }
+            </View>
+        )
+    }
+}
+
+
+//const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
+// //const expire = new Date(date.toLocaleDateString());
+// const  today = new Date(Date.now()).toLocaleDateString().getTime()
+// // let difference = new Date(expire).getTime() - new Date(today).getTime();
+
+
+import React, {useState} from 'react';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Alert } from 'react-native';
+import Task from './Task';
+import db from '../config';
+
+export default function ShoppingList() {
+  const [products, setProducts] = useState();
+  const [productItems, setProductItems] = useState([]);
+
+  const addProduct = () => {
+    Keyboard.dismiss();
+    if(products !== ''){
+      setProductItems([...productItems, products])
+      setProducts('');
+    }
+    else{
+      Alert.alert('Pls Add The Task First')
+    }
+  }
+
+  const deleteTask = (index) => {
+    let itemsCopy = [...productItems];
+    itemsCopy.splice(index, 1);
+    setProductItems(itemsCopy)
+  }
+
+     return (
+      <KeyboardAvoidingView style={styles.container}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1
+          }}
+          keyboardShouldPersistTaps='handled'
+        >
+  
+        <View style={styles.tasksWrapper}>
+          <Text style={styles.sectionTitle}>Todo List..</Text>
+          <View style={styles.items}>
+            {
+              productItems.map((item, index) => {
+                return (
+                  <TouchableOpacity key={index}  onPress={() => deleteTask(index)}>
+                    <Task text={item} /> 
+                  </TouchableOpacity>
+                )
+              })
+            }
+          </View>
+        </View>
+          
+        </ScrollView>
+  
+        <KeyboardAvoidingView 
+          style={styles.writeTaskWrapper}
+        >
+          <TextInput style={styles.input} placeholder={'Add Your Todos !'} value={products} onChangeText={text => setProducts(text)} />
+          <TouchableOpacity onPress={() => addProduct()}>
+            <View style={styles.addWrapper}>
+              <Text style={styles.addText}>+</Text>
+            </View>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+        
+      </KeyboardAvoidingView>
+    );
+          }
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#95a5a6',
+    },
+    tasksWrapper: {
+      paddingTop: 80,
+      paddingHorizontal: 20,
+    },
+    sectionTitle: {
+      fontSize: 40,
+      fontWeight: 'bold'
+    },
+    items: {
+      marginTop: 30,
+    },
+    writeTaskWrapper: {
+      position: 'absolute',
+      bottom: 60,
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center'
+    },
+    input: {
+      paddingVertical: 15,
+      paddingHorizontal: 15,
+      backgroundColor: '#FFF',
+      borderRadius: 60,
+      borderColor: '#f2f1ef',
+      borderWidth: 1,
+      width: 250,
+    },
+    addWrapper: {
+      width: 60,
+      height: 60,
+      backgroundColor: 'f2f1ef',
+      borderRadius: 60,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderColor: 'f2f1ef',
+      borderWidth: 1,
+    },
+    addText: {
+      color:'#f2f1ef'
+    },
+  });
+
+
+
+
+  import React,{ Component } from "react";
+import { View, Text, FlatList, TouchableOpacity, TextInput} from "react-native";
+import MyHeader from "../components/MyHeader";
+import { styles } from "../styles/todoStyle";
+import db from '../config';
+
+export default class ShoppingList extends Component {
+  constructor(props){
+      super(props);
+      this.state={
+        todoTasks: [],
+        newTaskName: "",
+      }
+  }
+
+  componentDidMount(){
+    this.unsubscribe = db.collection("shop_lists").onSnapshot((querySnapshot) => {
+      const todos = []
+      querySnapshot.forEach((doc) => {
+        todos.push({
+          taskName: doc.data().taskName
+        });
+      });
+      this.setState({
+        todoTasks: todos,
+      })
+    })
+  }
+
+  onPressAdd = () => {
+    db.collection("shop_lists").add({
+      taskName : this.state.newTaskName
+    })
+      this.setState({newTaskName : ""})
+  }
+
+    render() {
+        return (
+        <View style={styles.container}>
+         <MyHeader navigation={this.props.navigation} title="List"/>
+         <View style={styles.inputContainer}>
+           <TextInput 
+           style={styles.input}
+           placeholder=" Name"
+           placeholderTextColor= "grey"
+           onChangeText={(text) => {
+             this.setState({
+              newTaskName: text
+             })
+           }}
+           value={this.state.newTaskName}
+           />
+           <View>
+           <TouchableOpacity style={styles.buttonContainer} onPress={this.onPressAdd}>
+            <Text style={styles.buttonText}>Add </Text>
+           </TouchableOpacity>
+           </View>
+          
+         </View>
+         <FlatList 
+          data={this.state.todoTasks}
+          renderItem={ ({ item, index }) => {
+           return(
+            <View style={styles.item}>
+        <View style={styles.itemLeft}>
+          <View style={styles.square}></View>
+          <Text style={styles.itemText}>{item.taskName}</Text>
+        </View>
+        <View style={styles.circular}></View>
+      </View>
+           )
+          }}
+          keyExtractor={(item, index) => item.taskName}
+         >
+         </FlatList>
+           </View>
+        )
+    }
+}
+
+
+import React,{useState, useEffect} from 'react';
+import AllProducts from './screens/AllProducts';
+import { AppTabNavigator } from './components/AppTabNavigator';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import LoginScreen from './screens/LoginScreen';
+import OnBoardingScreen from './screens/OnBoardingScreen';
+import AsyncStorage from '@react-native-community/async-storage';
+import { View } from 'react-native';
+
+const switchNavigator = createSwitchNavigator({
+  OnBoardingScreen: {screen : OnBoardingScreen},
+})
+const AppContainer =  createAppContainer(switchNavigator);
+
+const App = () => {
+  const [loading, setLoading] = useState(true)
+  const [isFirstTimeLoaded, setIsFirstTimeLoaded] = useState(false);
+
+  const checkForFirstTimeLoaded = async() => {
+    const result = await AsyncStorage.getItem("isFirstTimeOpen")
+    if(result === null){
+      setIsFirstTimeLoaded(true)
+      setLoading(false)
+    }
+  } 
+
+  useEffect(() => {
+    checkForFirstTimeLoaded()
+  }, [])
+
+  if(loading) return null;
+
+  if(isFirstTimeLoaded) return(
+    <View>
+      <AppContainer />
+    </View>
+  )  
+
+  if(!isFirstTimeLoaded) return(
+    <View>
+      <LoginScreen />
+    </View>
+  )
+}
+
+import React,{useState, useEffect} from 'react';
+import AllProducts from './screens/AllProducts';
+import { AppTabNavigator } from './components/AppTabNavigator';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import LoginScreen from './screens/LoginScreen';
+import OnBoardingScreen from './screens/OnBoardingScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
+const switchNavigator = createSwitchNavigator({
+  OnBoardingScreen: {screen : OnBoardingScreen},
+})
+const AppContainer =  createAppContainer(switchNavigator);
+
+const App = () => {
+  const [isFirstTimeLoaded, setIsFirstTimeLoaded] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem('alreadyLaunched').then(value => {
+      if(value == null){
+        AsyncStorage.setItem('alreadyLaunched', 'true')
+        setIsFirstTimeLoaded(true)
+      }else{
+        setIsFirstTimeLoaded(false)
+      }})
+  }, [])
+
+
+  if(isFirstTimeLoaded === null){
+    return null;
+  }else if(isFirstTimeLoaded === true){
+    <AppContainer />
+  }else{
+    <LoginScreen/>
+  }
+}
+export default App;
+
+
+
+
+import React,{Component} from "react";
+import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import { Entypo } from '@expo/vector-icons'; 
+import { StatusBar } from "expo-status-bar";
+import { AntDesign } from '@expo/vector-icons';
+
+const {width} = Dimensions.get("window")
+const AspectRatio = 750 / 1125
+const height = width * AspectRatio
+
+export default class LoginScreen extends Component {
+  constructor(props){
+    super(props)
+  }
+  render() {
+    return (
+      <View style={{flex: 1, backgroundColor: "#030D34"}}>
+        <StatusBar barStyle="light-content"/>
+        <View style={{backgroundColor: "white"}}>
+        <View style={styles.parent}>
+        <Image style={styles.child} source={require('../assets/Loginbg.png')} />
+        </View>
+        </View>
+        <View style={{flex: 1, overflow: "hidden"}}>
+        <Image style={{...StyleSheet.absoluteFillObject, width: width, height: height, top: -height * 0.67}} source={require('../assets/Loginbg.png')} />
+        <View style={{flex:1, borderRadius: 90, borderTopLeftRadius:0 , backgroundColor: "white"}}>
+      
+      <View style={{paddingTop: 60}}>
+      <Text style={styles.text}>Expiree</Text>
+
+      <View style={styles.inputContainer}>
+        <Entypo name="mail" size={24} style={{padding: 8}} color="#95a5a6" />
+      <TextInput
+      placeholder="Enter your Email " 
+      placeholderTextColor= "grey" 
+      keyboardType="email-address"
+      autoCapitalize="none"
+      autoCorrect="false"
+       />
+       </View>
+
+       <View style={styles.passwordContainer}>
+       <Entypo name="lock" size={24} style={{padding: 8}} color="#95a5a6" />
+       <TextInput
+      placeholder="Enter your Password" 
+      placeholderTextColor= "grey" 
+      secureTextEntry={true}
+       />
+      </View>
+
+     <View style={{alignItems: "center", marginTop: 8}}>
+     <TouchableOpacity style={styles.buttonContainer}>
+        <Text style={styles.buttonText}>SignIn</Text>
+      </TouchableOpacity>
+     </View>
+
+
+     <TouchableOpacity style={styles.forgotButton}
+        onPress={()=> this.props.navigation.navigate("SignUpScreen")}
+       >
+        <Text style={styles.navButtonText}>
+          Don't have an acount? Create here
+        </Text>
+      </TouchableOpacity>
+
+      <View style={{alignItems: "center", marginTop: 8}}>
+          <TouchableOpacity
+            style={styles.googleSigninContainer}>
+            <AntDesign name="google" size={24} style={{padding: 8}}/>
+            <Text>Sign In with Google</Text>
+          </TouchableOpacity>
+        </View>
+
+{/*iske neeche mat likhna */}
+      
+        </View>
+        </View>
+        </View>
+      <View style={{height:100, backgroundColor: "#030D34"}}>
+      </View>
+      </View>
+    )
+  }
+}
+
+const styles = StyleSheet.create({
+  parent : {
+    borderBottomLeftRadius: 100,
+    overflow : 'hidden',
+    height: height * 0.63,
+  },
+    child : {
+    width :width,
+    height: height,
+  },
+  text:{
+    fontSize : 28,
+    color: "#030D34",
+    fontFamily: "SFProDisplay-Semibold",
+    textAlign: "center"
+  },
+
+  inputContainer: {
+    height: 56,
+    width: "80%",
+    marginTop: 40,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderStyle: "solid",
+    borderColor: "grey",
+    borderRadius: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 40
+  },
+  passwordContainer: {
+    height: 56,
+    width: "80%",
+    marginTop: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderStyle: "solid",
+    borderColor: "grey",
+    borderRadius: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 40
+  },
+  buttonContainer: {
+    width: 250,
+    height: 54,
+    backgroundColor: "#2CB9B0",
+    borderRadius: 30,
+    padding: 10,
+   marginTop: 30
+  },
+  googleSigninContainer: {
+    width: 240,
+    height: 54,
+    backgroundColor: "#2CB9B0",
+    borderRadius: 30,
+    padding: 10,
+   marginTop: 15,
+   flexDirection: "row",
+   alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    alignItems: "center",
+    textAlign: "center",
+  },
+  forgotButton: {
+    marginVertical: 35,
+  },
+  navButtonText: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#2e64e5',
+    fontFamily: 'Lato-Regular',
+    textAlign: "center"
+  },
+})
+  
+import { createStackNavigator } from 'react-navigation-stack'
+import { createAppContainer } from 'react-navigation';
+
+import AddProduct from '../screens/AddProduct'
+import AllProducts from '../screens/AllProducts';
+import Recepies from '../screens/Recepies';
+import Settings from '../screens/Settings';
+import LoginScreen from '../screens/LoginScreen';
+import OnBoardingScreen from '../screens/OnBoardingScreen';
+import SignUpScreen from '../screens/SignUpScreen';
+
+
+const screens = {
+    OnBoardingScreen: {
+      screen: OnBoardingScreen,
+      navigationOptions:{
+        headerShown : false
+      }
+    },
+    LoginScreen : {
+        screen: LoginScreen,
+        navigationOptions:{
+          headerShown : false
+        }
+      },
+      SignUpScreen : {
+        screen: SignUpScreen,
+        navigationOptions: {
+          headerShown: false
+        }
+      },
+      AddProduct : {
+          screen: AddProduct,
+          navigationOptions:{
+              headerShown : false
+            }
+      },
+      Recepies : {
+        screen: Recepies,
+        navigationOptions:{
+          headerShown : false
+        }
+      },
+      Settings: {
+        screen: Settings,
+        navigationOptions:{
+          headerShown : false
+        }
+      },
+      AllProducts : {
+          screen : AllProducts,
+          navigationOptions:{
+            headerShown : false
+          }
+        }}
+
+const AppStackNavigator = createStackNavigator(screens);
+export default createAppContainer(AppStackNavigator);
+
+
+import React,{Component} from "react";
+import { View, Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
+import { Entypo } from '@expo/vector-icons'; 
+import { StatusBar } from "expo-status-bar";
+import { AntDesign } from '@expo/vector-icons';
+
+const {width} = Dimensions.get("window")
+const AspectRatio = 750 / 1125
+const height = width * AspectRatio
+
+export default class LoginScreen extends Component{  
+    render(){
+      const {navigate}  = this.props.navigation
+      return (
+        <View style={{flex: 1, backgroundColor: "#030D34"}}>
+        <StatusBar barStyle="light-content"/>
+        <View style={{backgroundColor: "white"}}>
+        <View style={styles.parent}>
+        <Image style={styles.child} source={require('../assets/Loginbg.png')} />
+        </View>
+        </View>
+        <View style={{flex: 1, overflow: "hidden"}}>
+        <Image style={{...StyleSheet.absoluteFillObject, width: width, height: height, top: -height * 0.67}} source={require('../assets/Loginbg.png')} />
+        <View style={{flex:1, borderRadius: 90, borderTopLeftRadius:0 , backgroundColor: "white"}}>
+        
+        <View style={{paddingTop: 60}}>
+        <Text style={styles.text}>Expiree</Text>
+        
+        <View style={styles.inputContainer}>
+        <Entypo name="mail" size={24} style={{padding: 8}} color="#95a5a6" />
+        <TextInput
+        placeholder="Enter your Email " 
+        placeholderTextColor= "grey" 
+        keyboardType="email-address"
+        autoCapitalize="none"
+        autoCorrect="false"
+        />
+        </View>
+        
+        <View style={styles.passwordContainer}>
+        <Entypo name="lock" size={24} style={{padding: 8}} color="#95a5a6" />
+        <TextInput
+        placeholder="Enter your Password" 
+        placeholderTextColor= "grey" 
+        secureTextEntry={true}
+        />
+        </View>
+        
+        <View style={{alignItems: "center", marginTop: 8}}>
+        <TouchableOpacity style={styles.buttonContainer}>
+        <Text style={styles.buttonText}>SignIn</Text>
+        </TouchableOpacity>
+        </View>
+        
+        
+        <TouchableOpacity 
+        style={styles.forgotButton}
+        onPress={() => navigate("SignUpScreen")}>
+        <Text style={styles.navButtonText}>
+          Don't have an acount? Create here
+        </Text>
+        </TouchableOpacity> 
+
+        
+         <View style={{alignItems: "center", marginTop: 8}}>
+         <TouchableOpacity
+           style={styles.googleSigninContainer}>
+            <AntDesign name="google" size={24} style={{padding: 8}}/> 
+            <Text>Sign In with Google</Text>
+          </TouchableOpacity>
+         </View>
+       
+        
+        </View>
+        </View>
+        </View>
+        <View style={{height:100, backgroundColor: "#030D34"}}>
+        </View>
+        </View>
+      )
+    }
+}
+
+const styles = StyleSheet.create({
+  parent : {
+    borderBottomLeftRadius: 100,
+    overflow : 'hidden',
+    height: height * 0.63,
+  },
+    child : {
+    width :width,
+    height: height,
+  },
+  text:{
+    fontSize : 28,
+    color: "#030D34",
+    fontFamily: "SFProDisplay-Semibold",
+    textAlign: "center"
+  },
+
+  inputContainer: {
+    height: 56,
+    width: "80%",
+    marginTop: 40,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderStyle: "solid",
+    borderColor: "grey",
+    borderRadius: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 40
+  },
+  passwordContainer: {
+    height: 56,
+    width: "80%",
+    marginTop: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderStyle: "solid",
+    borderColor: "grey",
+    borderRadius: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 40
+  },
+  buttonContainer: {
+    width: 250,
+    height: 54,
+    backgroundColor: "#2CB9B0",
+    borderRadius: 30,
+    padding: 10,
+   marginTop: 30
+  },
+  googleSigninContainer: {
+    width: 240,
+    height: 54,
+    backgroundColor: "#2CB9B0",
+    borderRadius: 30,
+    padding: 10,
+   marginTop: 15,
+   flexDirection: "row",
+   alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    alignItems: "center",
+    textAlign: "center",
+  },
+  forgotButton: {
+    marginVertical: 35,
+  },
+  navButtonText: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#2e64e5',
+    fontFamily: 'Lato-Regular',
+    textAlign: "center"
+  },
+})
+  
+
+
+npm install react-native-onboarding-swiper
+import React,{useState, useEffect} from 'react';
+import { AppTabNavigator } from './components/AppTabNavigator';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import LoginScreen from './screens/LoginScreen';
+import OnBoardingScreen from './screens/OnBoardingScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { AppStackNavigator } from './components/AppStackNavigator';
+
+const switchNavigator = createSwitchNavigator({
+  OnBoardingScreen: {screen : OnBoardingScreen},
+  LoginScreen :{screen : LoginScreen},
+  BottomTab: {screen: AppTabNavigator},
+  Stack: {screen: AppStackNavigator}
+})
+const AppContainer =  createAppContainer(switchNavigator);
+
+
+
+export default function App(){
+  const [isFirstTimeLoaded, setIsFirstTimeLoaded] = useState(false);
+
+useEffect(() => {
+  AsyncStorage.getItem('alreadyLaunched').then(value =>{
+    if(value == null){
+      AsyncStorage.setItem('alreadyLaunched', 'true')
+      setIsFirstTimeLoaded(true)
+    } else{
+      setIsFirstTimeLoaded(false)
+    }})
+}, [])
+
+  if(isFirstTimeLoaded === null) return null;
+ else if (isFirstTimeLoaded === true) return  (<AppContainer />)
+  else{
+    return (<LoginScreen />)
+  }
+}
+
+
+
+
+
+useEffect
+
+
+
+
+/*** fucking impotant 
+
+
+import React,{useState, useEffect} from 'react';
+import { AppTabNavigator } from './components/AppTabNavigator';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import LoginScreen from './screens/LoginScreen';
+import OnBoardingScreen from './screens/OnBoardingScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { AppStackNavigator } from './components/AppStackNavigator';
+
+
+export default function App(){
+ return(
+   <AppContainer />
+ )
+}
+
+const switchNavigator = createSwitchNavigator({
+  OnBoardingScreen: {screen : OnBoardingScreen},
+  Stack: {screen: AppStackNavigator},
+  BottomTab: {screen: AppTabNavigator},
+})
+const AppContainer =  createAppContainer(switchNavigator);
+
+***/
+npm i react-native-app-intro-slider
+
+
+import React,{Component} from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import Onboarding from 'react-native-onboarding-swiper';
+
+const Dots = ({selected}) => {
+  let backgroundColor;
+
+  backgroundColor = selected ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.3)';
+
+  return (
+      <View 
+          style={{
+              width:6,
+              height: 6,
+              marginHorizontal: 3,
+              backgroundColor
+          }}
+      />
+  );
+}
+
+
+const Skip = ({...props}) => (
+  <TouchableOpacity
+      style={{marginHorizontal:10}}
+      {...props}
+  >
+      <Text style={{fontSize:16}}>Skip</Text>
+  </TouchableOpacity>
+);
+
+const Next = ({...props}) => (
+  <TouchableOpacity
+      style={{marginHorizontal:10}}
+      {...props}
+  >
+      <Text style={{fontSize:16}}>Next</Text>
+  </TouchableOpacity>
+);
+
+const Done = ({...props}) => (
+  <TouchableOpacity
+      style={{marginHorizontal:10}}
+      {...props}
+  >
+      <Text style={{fontSize:16}}>Done</Text>
+  </TouchableOpacity>
+);
+
+export default class OnBoardingScreen extends Component {
+  render() {
+    const {navigate} = this.props.navigation
+    return (
+      <Onboarding
+      SkipButtonComponent={Skip}
+      NextButtonComponent={Next}
+      DoneButtonComponent={Done}
+      DotComponent={Dots}
+      onSkip={() => navigate("LoginScreen")}
+      onDone={() => navigate("LoginScreen")}
+      pages={[
+        {
+          backgroundColor: '#a6e4d0',
+          image: <Image source={require('../assets/on1.png')} />,
+          title: 'Connect to the World',
+          subtitle: 'A New Way To Connect With The World',
+        },
+        {
+          backgroundColor: '#fdeb93',
+          image: <Image source={require('../assets/on2.png')} />,
+          title: 'Share Your Favorites',
+          subtitle: 'Share Your Thoughts With Similar Kind of People',
+        },
+        {
+          backgroundColor: '#e9bcbe',
+          image: <Image source={require('../assets/on3.png')} />,
+          title: 'Become The Star',
+          subtitle: "Let The Spot Light Capture You",
+        },
+      ]}
+    />
+    )
+  }
+}
+
+import React,{useState, useEffect} from 'react';
+import { AppTabNavigator } from './components/AppTabNavigator';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import LoginScreen from './screens/LoginScreen';
+import OnBoardingScreen from './screens/OnBoardingScreen';
+import { AppStackNavigator } from './components/AppStackNavigator';
+
+
+export default function App(){
+ return(
+   <AppContainer />
+ )
+ }
+const switchNavigator = createSwitchNavigator({
+  OnBoardingScreen: {screen : OnBoardingScreen},
+  Stack: {screen: AppStackNavigator},
+  BottomTab: {screen: AppTabNavigator},
+})
+const AppContainer =  createAppContainer(switchNavigator);
+
+
+
+
+
+isUserEqual = (googleUser, firebaseUser) => {
+    if (firebaseUser) {
+      var providerData = firebaseUser.providerData;
+      for (var i = 0; i < providerData.length; i++) {
+        if (
+          providerData[i].providerId ===
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+          providerData[i].uid === googleUser.getBasicProfile().getId()
+        ) {
+          // We don't need to reauth the Firebase connection.
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  
+
+  onSignIn = googleUser => {
+    console.log('Google Auth Response', googleUser);
+    // We need to register an Observer on Firebase Auth to make sure auth is initialized.
+    var unsubscribe = firebase.auth().onAuthStateChanged(
+      function(firebaseUser) {
+        unsubscribe();
+        // Check if we are already signed-in Firebase with the correct user.
+        if (!this.isUserEqual(googleUser, firebaseUser)) {
+          // Build Firebase credential with the Google ID token.
+          var credential = firebase.auth.GoogleAuthProvider.credential(
+            googleUser.idToken,
+            googleUser.accessToken
+          );
+          // Sign in with credential from the Google user.
+          firebase
+            .auth()
+            .signInAndRetrieveDataWithCredential(credential)
+            .then(function(result) {
+              console.log('user signed in ');
+              if (result.additionalUserInfo.isNewUser) {
+                firebase
+                  .firestore()
+                  .ref('/users/' + result.user.uid)
+                  .set({
+                    gmail: result.user.email,
+                    profile_picture: result.additionalUserInfo.profile.picture,
+                    first_name: result.additionalUserInfo.profile.given_name,
+                    last_name: result.additionalUserInfo.profile.family_name,
+                    created_at: Date.now()
+                  })
+                  .then(function(snapshot) {
+                    // console.log('Snapshot', snapshot);
+                  });
+              } else {
+                firebase
+                  .firestore()
+                  .ref('/users/' + result.user.uid)
+                  .update({
+                    last_logged_in: Date.now()
+                  });
+              }
+            })
+            .catch(function(error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // The email of the user's account used.
+              var email = error.email;
+              // The firebase.auth.AuthCredential type that was used.
+              var credential = error.credential;
+              // ...
+            });
+        } else {
+          console.log('User already signed-in Firebase.');
+        }
+      }.bind(this)
+    );
+  };
+
+  signInWithGoogleAsync = async() => {
+    try {
+      const result = await Google.logInAsync({
+        // androidClientId: YOUR_CLIENT_ID_HERE,
+        iosClientId: '531920236585-g6msd2cl77qccbmsads94p9otgmsfsmq.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+        behavior: 'web',
+      });
+  
+      if (result.type === 'success') {
+        return result.accessToken;
+      } else {
+        return { cancelled: true };
+      }
+    } catch (e) {
+      return { error: true };
+    }
+  }
+
+  
+import React,{Component} from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import Onboarding from 'react-native-onboarding-swiper';
+
+const Dots = ({selected}) => {
+  let backgroundColor;
+
+  backgroundColor = selected ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.3)';
+
+  return (
+      <View 
+          style={{
+              width:6,
+              height: 6,
+              marginHorizontal: 3,
+              backgroundColor
+          }}
+      />
+  );
+}
+
+
+const Skip = ({...props}) => (
+  <TouchableOpacity
+      style={{marginHorizontal:10}}
+      {...props}
+  >
+      <Text style={{fontSize:16}}>Skip</Text>
+  </TouchableOpacity>
+);
+
+const Next = ({...props}) => (
+  <TouchableOpacity
+      style={{marginHorizontal:10}}
+      {...props}
+  >
+      <Text style={{fontSize:16}}>Next</Text>
+  </TouchableOpacity>
+);
+
+const Done = ({...props}) => (
+  <TouchableOpacity
+      style={{marginHorizontal:10}}
+      {...props}
+  >
+      <Text style={{fontSize:16}}>Done</Text>
+  </TouchableOpacity>
+);
+
+export default class OnBoardingScreen extends Component {
+  render() {
+    const {navigate} = this.props.navigation
+    return (
+      <Onboarding
+      SkipButtonComponent={Skip}
+      NextButtonComponent={Next}
+      DoneButtonComponent={Done}
+      DotComponent={Dots}
+      onSkip={() => navigate("LoginScreen")}
+      onDone={() => navigate("LoginScreen")}
+      pages={[
+        {
+          backgroundColor: '#a6e4d0',
+          image: <Image source={require('../assets/on1.png')} />,
+          title: 'Connect to the World',
+          subtitle: 'A New Way To Connect With The World',
+        },
+        {
+          backgroundColor: '#fdeb93',
+          image: <Image source={require('../assets/on2.png')} />,
+          title: 'Share Your Favorites',
+          subtitle: 'Share Your Thoughts With Similar Kind of People',
+        },
+        {
+          backgroundColor: '#e9bcbe',
+          image: <Image source={require('../assets/on3.png')} />,
+          title: 'Become The Star',
+          subtitle: "Let The Spot Light Capture You",
+        },
+      ]}
+    />
+    )
+  }
+}

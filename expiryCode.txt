@@ -1,0 +1,49 @@
+
+const ExpiringCertificationsScreen = () => {
+   const { state, fetchCertifications } = useContext(CertificationContext);
+   const [expiration, setExpiration] = useState([]);
+
+   const diffDays = date => {
+     let today = new Date(Date.now()).toLocaleDateString();
+     let expire = new Date(date.toLocaleDateString());
+     let difference = new Date(expire).getTime() - new Date(today).getTime();
+     return difference / (1000 * 3600 * 24);
+  };
+
+  useEffect(() => {
+     const filterExpirationDate = state.filter(item => {
+         return diffDays(new Date(item.expirationDate)) <= 30;
+     });        
+      console.log(filterExpirationDate);
+      setExpiration(filterExpirationDate);
+  }, [state]);
+
+  return expiration.length === 0 ? (
+      <Body>
+        <Text style={styles.title}>EXPIRING SOON</Text>
+        <Text style={{ margin: 15 }}>
+          There aren't any certifications expiring soon
+        </Text>
+      </Body>
+  ) :(
+    <Body>
+      <Text style={styles.title}>EXPIRING SOON</Text>
+      <ScrollView style={{ marginTop: 15 }}>
+        <FlatList
+          data={expiration}
+          keyExtractor={item => item._id}
+          renderItem={({ item }) => {
+            return (
+              <Certifications
+                title={item.title}
+                month={item.expirationDate}
+                description={item.description}
+                id={item._id}
+              />
+            );
+          }}
+        />
+      </ScrollView>
+    </Body>
+  );
+};
