@@ -2,9 +2,8 @@ import React from 'react';
 import { AppTabNavigator } from './components/AppTabNavigator';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import LoginScreen from './screens/LoginScreen';
-import { AppStackNavigator } from './components/AppStackNavigator';
 import SignUpScreen from './screens/SignUpScreen';
-import OnBoardingScreen from './screens/OnBoardingScreen';
+import LoadingScreen from './screens/LoadingScreen';
 
 export default function App(){
  return(
@@ -12,7 +11,7 @@ export default function App(){
  )
  }
 const switchNavigator = createSwitchNavigator({
-  OnBoardingScreen:  { screen: OnBoardingScreen },
+  LoadingScreen: {screen: LoadingScreen},
   LoginScreen: { screen: LoginScreen },
   SignUpScreen: { screen: SignUpScreen },
   BottomTab: {screen: AppTabNavigator},

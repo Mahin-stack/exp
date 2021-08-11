@@ -144,7 +144,7 @@ export default class AddProduct extends Component {
           <TouchableOpacity
             style={styles.buttonContainer}
             onPress={()=>{
-           //   this.props.navigation.navigate("AllProducts")
+             this.props.navigation.navigate("AllProducts")
               this.addItems(this.state.item, this.state.date, this.state.note, this.state.image, this.state.quantity)
             }}>
               <Text style={styles.buttonText}>Add</Text>
